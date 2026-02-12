@@ -12,7 +12,9 @@ mongoose.connect('mongodb+srv://7122002sathish_db_user:jWIleQbov6hvFamx@cluster0
 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/songs', require('./routes/songs'));
-
+app.get('/', (req, res) => {
+  res.send('Backend deployed successfully!');
+});
 app.listen(5000, async () => {
   console.log('Server running on port 5000');
   await fetchTracks();
