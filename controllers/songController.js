@@ -1,10 +1,22 @@
-const Song = require('../models/Song');
+const { fetchSongsFromiTunes } = require("../services/deezerService");
 
-exports.getSongs = async (req, res) => {
+const searchSongs = async (req, res) => {
   try {
-    const songs = await Song.find({});
+    const query = req.query.q || "tamil";
+
+    const data = await fetchSongsFromiTunes(query);
+
+    const songs = data.map(song => ({
+      id: song.trackId,
+      title: song.trackName,
+      artist: song.artistName,
+      preview: song.previewUrl,
+      cover: song.artworkUrl100
+    }));
     res.json(songs);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: "Failed to fetch songs" });
   }
 };
+
+module.exports = { searchSongs };

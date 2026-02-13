@@ -1,10 +1,10 @@
 const express = require('express');
 const cors = require('cors');
-const fetchTracks = require('./utils/fetchSpotifyTracks');
 const connectDB = require('./db');
 const app = express();
 app.use(express.json());
 app.use(cors());
+require("dotenv").config();
 
 app.use(async (req, res, next) => {
   await connectDB();
@@ -18,5 +18,4 @@ app.get('/', (req, res) => {
 });
 app.listen(5000, async () => {
   console.log('Server running on port 5000');
-  await fetchTracks();
 });
